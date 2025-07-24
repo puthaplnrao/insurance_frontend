@@ -26,7 +26,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/hms.frontend:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/insurance.frontend:latest
 
   deploy:
     runs-on: ubuntu-latest
@@ -42,7 +42,7 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           source: ".env.production.frontend"
-          target: "~/puthaplnraohms/"
+          target: "~/puthaplnraoinsurance/"
 
       - name: Deploy container on server
         uses: appleboy/ssh-action@v0.1.10
@@ -51,12 +51,12 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            docker pull ${{ secrets.DOCKER_USERNAME }}/hms.frontend:latest
-            docker stop hms.frontend || true
-            docker rm hms.frontend || true
+            docker pull ${{ secrets.DOCKER_USERNAME }}/insurance.frontend:latest
+            docker stop insurance.frontend || true
+            docker rm insurance.frontend || true
             docker run -d \
-              --name hms.frontend \
-              --env-file ~/puthaplnraohms/.env.production.frontend \
+              --name insurance.frontend \
+              --env-file ~/puthaplnraoinsurance/.env.production.frontend \
               -p 3001:80 \
-              ${{ secrets.DOCKER_USERNAME }}/hms.frontend:latest
+              ${{ secrets.DOCKER_USERNAME }}/insurance.frontend:latest
             docker image prune -f
