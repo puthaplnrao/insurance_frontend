@@ -57,6 +57,6 @@ jobs:
             docker run -d \
               --name insurance.frontend \
               --env-file ~/puthaplnraoinsurance/.env.production.frontend \
-              -p 3001:80 \
+              -p 3333:80 \
               ${{ secrets.DOCKER_USERNAME }}/insurance.frontend:latest
             docker image prune -f
